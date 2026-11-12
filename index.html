@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>AetherVault — Shared Media Gallery</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -25,10 +25,13 @@
     };
   </script>
   <style>
-    body {
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
       background-color: #09090b;
       color: #f4f4f5;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
     ::-webkit-scrollbar {
       width: 6px;
@@ -49,91 +52,96 @@
 <body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
 
   <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-30 bg-vault-bg/85 backdrop-blur-md border-b border-vault-border px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-    <div class="flex items-center gap-3 min-w-0">
-      <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800">
+  <header class="sticky top-0 z-30 bg-vault-bg/90 backdrop-blur-md border-b border-vault-border px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 w-full">
+    <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+      <button id="mobileMenuBtn" aria-label="Open menu" class="lg:hidden p-1.5 sm:p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 shrink-0">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="flex items-center gap-2.5 truncate">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20">
           <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
-        <div class="truncate">
-          <h1 id="galleryTitleDisplay" class="font-semibold text-base sm:text-lg tracking-tight truncate">Class Media Vault</h1>
-        </div>
+        <h1 id="galleryTitleDisplay" class="font-semibold text-sm sm:text-lg tracking-tight truncate">Class Media Vault</h1>
       </div>
     </div>
 
     <!-- Search & Actions -->
-    <div class="flex items-center gap-2 sm:gap-3">
-      <div class="relative hidden md:block w-64">
+    <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <div class="relative hidden lg:block w-64">
         <input id="searchInput" type="text" placeholder="Search photos, videos, tags..." class="w-full bg-vault-surface border border-vault-border rounded-lg pl-9 pr-3 py-1.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition" />
         <svg class="w-4 h-4 text-zinc-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
 
-      <!-- Editable User Name Pill -->
-      <button id="editNameBtn" title="Click to change your display name" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-vault-surface border border-vault-border hover:border-zinc-700 text-xs text-zinc-300 transition">
+      <!-- Editable User Name Pill (Desktop) -->
+      <button id="editNameBtn" title="Click to change your display name" class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-vault-surface border border-vault-border hover:border-zinc-700 text-xs text-zinc-300 transition">
         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span id="userNameDisplay">Classmate</span>
+        <span id="userNameDisplay" class="max-w-[100px] truncate">Classmate</span>
       </button>
 
       <!-- Share Link Button -->
-      <div class="relative">
-        <button id="copyLinkBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-sm font-medium text-zinc-200 transition">
-          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-          <span id="copyLinkText">Share Link</span>
-        </button>
-      </div>
+      <button id="copyLinkBtn" title="Copy Share Link" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-xs sm:text-sm font-medium text-zinc-200 transition">
+        <svg class="w-4 h-4 text-indigo-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+        <span id="copyLinkText" class="hidden xs:inline sm:inline">Share</span>
+      </button>
 
       <!-- Link Settings Button -->
-      <button id="settingsBtn" title="Gallery Settings" class="p-2 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-zinc-400 hover:text-white transition">
+      <button id="settingsBtn" title="Gallery Settings" class="p-1.5 sm:p-2 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-zinc-400 hover:text-white transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
       </button>
 
       <!-- Upload Trigger -->
-      <label id="headerUploadLabel" class="cursor-pointer flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-sm font-medium text-white shadow-lg shadow-indigo-600/20 transition">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+      <label id="headerUploadLabel" class="cursor-pointer flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-medium text-white shadow-lg shadow-indigo-600/20 transition">
+        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
         <span>Upload</span>
         <input id="fileInput" type="file" accept="image/*,video/*" multiple class="hidden" />
       </label>
     </div>
   </header>
 
-  <div class="flex-1 flex relative">
+  <div class="flex-1 flex relative w-full max-w-full overflow-x-hidden">
     <!-- Sidebar Backdrop (Mobile) -->
     <div id="sidebarBackdrop" class="fixed inset-0 bg-black/60 z-30 hidden lg:hidden"></div>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-vault-surface border-r border-vault-border flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out">
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-64 max-w-[80vw] bg-vault-surface border-r border-vault-border flex flex-col justify-between transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out">
       <div class="p-4 space-y-6 overflow-y-auto">
+        <!-- Mobile Display Name Quick Switcher -->
+        <div class="md:hidden pb-3 border-b border-vault-border flex items-center justify-between">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+            <span id="mobileUserNameDisplay" class="text-xs font-medium text-zinc-200 truncate">Classmate</span>
+          </div>
+          <button id="mobileEditNameBtn" class="text-xs text-indigo-400 hover:underline shrink-0">Edit Name</button>
+        </div>
+
         <!-- Main Library Links -->
         <div>
           <p class="px-3 text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-2">Library</p>
           <nav class="space-y-1">
             <button data-filter="all" class="nav-filter-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium bg-indigo-500/10 text-indigo-400">
               <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                 All Media
               </span>
               <span id="countAll" class="text-xs text-zinc-400">0</span>
             </button>
             <button data-filter="image" class="nav-filter-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60">
               <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Photos
               </span>
               <span id="countPhotos" class="text-xs text-zinc-500">0</span>
             </button>
             <button data-filter="video" class="nav-filter-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60">
               <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 Videos
               </span>
               <span id="countVideos" class="text-xs text-zinc-500">0</span>
             </button>
             <button data-filter="favorites" class="nav-filter-btn w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60">
               <span class="flex items-center gap-2.5">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 Favorites
               </span>
               <span id="countFavorites" class="text-xs text-zinc-500">0</span>
@@ -163,118 +171,123 @@
           <div id="storageBar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 2%"></div>
         </div>
         <p id="permissionBadge" class="mt-2.5 text-[11px] text-emerald-400 flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-          Upload & View Enabled
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+          <span>Upload & View Enabled</span>
         </p>
       </div>
     </aside>
 
     <!-- Main Workspace -->
-    <main class="flex-1 flex flex-col min-w-0 p-4 sm:p-6">
+    <main class="flex-1 flex flex-col min-w-0 w-full p-3.5 sm:p-6">
       <!-- Toolbar -->
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-        <div class="flex items-center gap-2">
-          <h2 id="viewHeading" class="text-lg font-semibold text-white">All Media</h2>
-          <span id="itemCountBadge" class="px-2 py-0.5 text-xs rounded-full bg-zinc-800 text-zinc-400">0 items</span>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-5">
+        <div class="flex items-center justify-between sm:justify-start gap-2 min-w-0">
+          <h2 id="viewHeading" class="text-base sm:text-lg font-semibold text-white truncate">All Media</h2>
+          <span id="itemCountBadge" class="px-2 py-0.5 text-[11px] sm:text-xs rounded-full bg-zinc-800 text-zinc-400 shrink-0">0 items</span>
         </div>
 
-        <div class="flex items-center gap-2">
-          <!-- Mobile Search -->
-          <input id="mobileSearchInput" type="text" placeholder="Search..." class="md:hidden w-36 bg-vault-surface border border-vault-border rounded-lg px-2.5 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500" />
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <!-- Mobile/Tablet Search -->
+          <div class="relative flex-1 lg:hidden min-w-0">
+            <input id="mobileSearchInput" type="text" placeholder="Search media..." class="w-full bg-vault-surface border border-vault-border rounded-lg pl-7 pr-2.5 py-1.5 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500" />
+            <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
 
-          <select id="sortSelect" class="bg-vault-surface border border-vault-border rounded-lg px-3 py-1.5 text-xs sm:text-sm text-zinc-300 focus:outline-none focus:border-indigo-500">
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-            <option value="name">Name (A–Z)</option>
-            <option value="size">Largest Size</option>
+          <select id="sortSelect" aria-label="Sort media" class="bg-vault-surface border border-vault-border rounded-lg px-2 sm:px-3 py-1.5 text-xs sm:text-sm text-zinc-300 focus:outline-none focus:border-indigo-500 shrink-0">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="name">Name</option>
+            <option value="size">Size</option>
           </select>
 
-          <button id="toggleSelectModeBtn" class="px-3 py-1.5 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-xs sm:text-sm text-zinc-300 transition">
+          <button id="toggleSelectModeBtn" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-xs sm:text-sm text-zinc-300 transition shrink-0">
             Select
           </button>
         </div>
       </div>
 
       <!-- Bulk Actions Bar (Hidden until Select mode active) -->
-      <div id="bulkBar" class="hidden mb-4 p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30 flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <span id="selectedCountText" class="text-sm font-medium text-indigo-200">0 selected</span>
+      <div id="bulkBar" class="hidden mb-4 p-2.5 sm:p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30 flex flex-wrap items-center justify-between gap-2.5">
+        <div class="flex items-center gap-2.5">
+          <span id="selectedCountText" class="text-xs sm:text-sm font-medium text-indigo-200">0 selected</span>
           <button id="selectAllBtn" class="text-xs text-indigo-400 hover:underline">Select All</button>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="bulkFavBtn" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200">Favorite</button>
-          <button id="bulkAlbumBtn" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200">Move to Album</button>
-          <button id="bulkDeleteBtn" class="px-2.5 py-1 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-xs text-white">Delete</button>
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <button id="bulkFavBtn" class="px-2 sm:px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200">Favorite</button>
+          <button id="bulkAlbumBtn" class="px-2 sm:px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200">Album</button>
+          <button id="bulkDeleteBtn" class="px-2 sm:px-2.5 py-1 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-xs text-white">Delete</button>
         </div>
       </div>
 
       <!-- Drag & Drop Upload Zone -->
-      <div id="dropZone" class="mb-6 border-2 border-dashed border-vault-border hover:border-indigo-500/60 rounded-2xl p-6 text-center transition cursor-pointer bg-vault-surface/40">
-        <div class="w-11 h-11 rounded-full bg-indigo-500/10 text-indigo-400 mx-auto flex items-center justify-center mb-2.5">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+      <div id="dropZone" class="mb-5 sm:mb-6 border-2 border-dashed border-vault-border hover:border-indigo-500/60 rounded-2xl p-4 sm:p-6 text-center transition cursor-pointer bg-vault-surface/40">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-indigo-500/10 text-indigo-400 mx-auto flex items-center justify-center mb-2">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
         </div>
-        <p class="text-sm font-medium text-zinc-200">Drag & drop photos or videos here, or <span class="text-indigo-400 underline">browse files</span></p>
-        <p class="text-xs text-zinc-500 mt-1">Supports JPG, PNG, WEBP, GIF, MP4, WEBM, MOV</p>
+        <p class="text-xs sm:text-sm font-medium text-zinc-200">Tap to choose or drag & drop photos & videos</p>
+        <p class="text-[11px] sm:text-xs text-zinc-500 mt-1">JPG, PNG, WEBP, GIF, MP4, WEBM, MOV</p>
       </div>
 
       <!-- Media Grid -->
-      <div id="mediaGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4">
+      <div id="mediaGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-2.5 sm:gap-4 w-full">
         <!-- Cards injected dynamically -->
       </div>
 
       <!-- Empty State -->
-      <div id="emptyState" class="hidden flex-1 flex flex-col items-center justify-center py-16 text-center">
-        <div class="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-3">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <div id="emptyState" class="hidden flex-1 flex flex-col items-center justify-center py-12 sm:py-16 text-center px-4">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-3">
+          <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
-        <h3 class="text-base font-medium text-zinc-300">No media found</h3>
+        <h3 class="text-sm sm:text-base font-medium text-zinc-300">No media found</h3>
         <p class="text-xs text-zinc-500 max-w-xs mt-1">Upload images or videos above, or adjust your active filters and search query.</p>
       </div>
     </main>
   </div>
 
   <!-- Lightbox Modal -->
-  <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex flex-col lg:flex-row">
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex flex-col lg:flex-row w-full h-full overflow-hidden">
     <!-- Media Preview Canvas -->
-    <div class="flex-1 relative flex items-center justify-center p-4 min-h-0">
-      <button id="closeLightboxBtn" class="absolute top-4 left-4 z-10 p-2.5 rounded-full bg-zinc-900/80 hover:bg-zinc-800 text-white border border-zinc-700">
+    <div class="flex-1 relative flex items-center justify-center p-3 sm:p-4 min-h-0 overflow-hidden">
+      <button id="closeLightboxBtn" aria-label="Close preview" class="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 p-2 sm:p-2.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 text-white border border-zinc-700">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
-      <div id="lightboxMediaContainer" class="max-w-full max-h-full flex items-center justify-center"></div>
+      <div id="lightboxMediaContainer" class="w-full h-full flex items-center justify-center overflow-hidden"></div>
     </div>
 
     <!-- Inspector Panel -->
-    <div class="w-full lg:w-80 bg-vault-surface border-t lg:border-t-0 lg:border-l border-vault-border p-5 flex flex-col justify-between gap-4 overflow-y-auto max-h-[45vh] lg:max-h-screen">
-      <div class="space-y-4">
+    <div class="w-full lg:w-80 bg-vault-surface border-t lg:border-t-0 lg:border-l border-vault-border p-4 sm:p-5 flex flex-col justify-between gap-3 sm:gap-4 overflow-y-auto max-h-[46vh] lg:max-h-screen shrink-0">
+      <div class="space-y-3 sm:space-y-4">
         <div>
           <label class="block text-xs font-medium text-zinc-400 mb-1">Title</label>
-          <input id="inspectorTitle" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" />
+          <input id="inspectorTitle" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
         </div>
 
-        <div>
-          <label class="block text-xs font-medium text-zinc-400 mb-1">Album</label>
-          <select id="inspectorAlbum" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
-            <option value="">None</option>
-          </select>
+        <div class="grid grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-4">
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">Album</label>
+            <select id="inspectorAlbum" class="w-full bg-vault-bg border border-vault-border rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500">
+              <option value="">None</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">Tags</label>
+            <input id="inspectorTags" type="text" placeholder="notes, lab" class="w-full bg-vault-bg border border-vault-border rounded-lg px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
+          </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-medium text-zinc-400 mb-1">Tags (comma separated)</label>
-          <input id="inspectorTags" type="text" placeholder="biology, lab, group-a" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" />
-        </div>
-
-        <div class="pt-2 border-t border-vault-border text-xs text-zinc-400 space-y-1.5">
-          <div class="flex justify-between"><span>Uploaded by:</span><span id="inspectorUploader" class="text-zinc-200 font-medium">Classmate</span></div>
-          <div class="flex justify-between"><span>Type:</span><span id="inspectorType" class="text-zinc-200">Image</span></div>
-          <div class="flex justify-between"><span>Size:</span><span id="inspectorSize" class="text-zinc-200">0 KB</span></div>
-          <div class="flex justify-between"><span>Added:</span><span id="inspectorDate" class="text-zinc-200">-</span></div>
+        <div class="pt-2 border-t border-vault-border text-[11px] sm:text-xs text-zinc-400 grid grid-cols-2 lg:grid-cols-1 gap-1.5">
+          <div class="flex justify-between gap-1"><span class="text-zinc-500">By:</span><span id="inspectorUploader" class="text-zinc-200 font-medium truncate">Classmate</span></div>
+          <div class="flex justify-between gap-1"><span class="text-zinc-500">Size:</span><span id="inspectorSize" class="text-zinc-200">0 KB</span></div>
+          <div class="flex justify-between gap-1"><span class="text-zinc-500">Type:</span><span id="inspectorType" class="text-zinc-200 truncate">Image</span></div>
+          <div class="flex justify-between gap-1"><span class="text-zinc-500">Date:</span><span id="inspectorDate" class="text-zinc-200">-</span></div>
         </div>
       </div>
 
-      <div class="flex items-center gap-2 pt-3 border-t border-vault-border">
-        <button id="inspectorFavBtn" class="flex-1 py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-medium text-white transition">Favorite</button>
-        <a id="inspectorDownloadBtn" download class="flex-1 py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white text-center transition">Download</a>
-        <button id="inspectorDeleteBtn" class="p-2 rounded-lg bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white transition" title="Delete">
+      <div class="flex items-center gap-2 pt-2.5 border-t border-vault-border">
+        <button id="inspectorFavBtn" class="flex-1 py-2 px-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-medium text-white transition truncate">Favorite</button>
+        <a id="inspectorDownloadBtn" download class="flex-1 py-2 px-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white text-center transition truncate">Download</a>
+        <button id="inspectorDeleteBtn" class="p-2 rounded-lg bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white transition shrink-0" title="Delete">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
         </button>
       </div>
@@ -282,29 +295,29 @@
   </div>
 
   <!-- Settings Modal -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-vault-surface border border-vault-border rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-vault-surface border border-vault-border rounded-2xl max-w-md w-full p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-semibold text-white">Gallery & Share Settings</h3>
-        <button id="closeSettingsBtn" class="text-zinc-400 hover:text-white">
+        <h3 class="text-sm sm:text-base font-semibold text-white">Gallery & Share Settings</h3>
+        <button id="closeSettingsBtn" class="text-zinc-400 hover:text-white p-1">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-3.5 sm:space-y-4">
         <div>
           <label class="block text-xs font-medium text-zinc-400 mb-1">Gallery Name</label>
-          <input id="settingGalleryName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" />
+          <input id="settingGalleryName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
         </div>
 
         <div>
           <label class="block text-xs font-medium text-zinc-400 mb-1">Your Display Name</label>
-          <input id="settingUserName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" />
+          <input id="settingUserName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
         </div>
 
         <div>
           <label class="block text-xs font-medium text-zinc-400 mb-1">Classmate Permissions</label>
-          <select id="settingPermission" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <select id="settingPermission" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500">
             <option value="upload">Upload & View (Classmates can add files)</option>
             <option value="view">View Only (Read-only gallery)</option>
           </select>
@@ -313,24 +326,24 @@
         <div>
           <label class="block text-xs font-medium text-zinc-400 mb-1">Shareable Link</label>
           <div class="flex gap-2">
-            <input id="shareUrlInput" type="text" readonly class="flex-1 bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs text-zinc-300 select-all" />
-            <button id="modalCopyBtn" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white">Copy</button>
+            <input id="shareUrlInput" type="text" readonly class="flex-1 min-w-0 bg-vault-bg border border-vault-border rounded-lg px-2.5 py-2 text-xs text-zinc-300 select-all" />
+            <button id="modalCopyBtn" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shrink-0">Copy</button>
           </div>
         </div>
       </div>
 
-      <div class="pt-3 border-t border-vault-border flex justify-between items-center">
+      <div class="pt-3 border-t border-vault-border flex justify-between items-center gap-2">
         <button id="newGalleryBtn" class="text-xs text-zinc-400 hover:text-white underline">Start Blank Gallery</button>
-        <button id="saveSettingsBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-sm font-medium text-white">Save Changes</button>
+        <button id="saveSettingsBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-medium text-white shrink-0">Save Changes</button>
       </div>
     </div>
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-sm text-white shadow-xl transform translate-y-20 opacity-0 transition-all duration-200 pointer-events-none"></div>
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-5 z-50 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs sm:text-sm text-white shadow-xl transform translate-y-24 opacity-0 transition-all duration-200 pointer-events-none max-w-[90vw] text-center truncate"></div>
 
   <script>
-    // --- Safe URL & Gallery ID Setup (Never uses blob: prefix) ---
+    // --- Safe URL & Gallery ID Setup ---
     function getGalleryId() {
       const params = new URLSearchParams(window.location.search);
       let id = params.get('gallery');
@@ -433,9 +446,9 @@
     function showToast(msg) {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
-      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.remove('translate-y-24', 'opacity-0');
       setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-24', 'opacity-0');
       }, 2600);
     }
 
@@ -452,6 +465,11 @@
       localStorage.setItem('av_userName', state.userName);
       localStorage.setItem('av_permission', state.permission);
       localStorage.setItem('av_albums', JSON.stringify(state.albums));
+    }
+
+    function closeMobileSidebar() {
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+      document.getElementById('sidebarBackdrop').classList.add('hidden');
     }
 
     // --- File Upload Processing ---
@@ -490,7 +508,7 @@
       }
 
       await refreshData();
-      showToast(`Uploaded ${files.length} file(s) successfully!`);
+      showToast(`Uploaded ${files.length} file(s)!`);
     }
 
     // --- Rendering ---
@@ -500,31 +518,29 @@
     }
 
     function renderUI() {
-      // Clean up old object URLs
       state.activeObjectUrls.forEach(url => URL.revokeObjectURL(url));
       state.activeObjectUrls = [];
 
-      // Header & Metadata
       document.getElementById('galleryTitleDisplay').textContent = state.galleryName;
       document.getElementById('userNameDisplay').textContent = state.userName;
+      document.getElementById('mobileUserNameDisplay').textContent = state.userName;
 
       const permBadge = document.getElementById('permissionBadge');
       const dropZone = document.getElementById('dropZone');
       const headerUpload = document.getElementById('headerUploadLabel');
 
       if (state.permission === 'upload') {
-        permBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Upload & View Enabled`;
+        permBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span> <span>Upload & View Enabled</span>`;
         permBadge.className = 'mt-2.5 text-[11px] text-emerald-400 flex items-center gap-1.5';
         dropZone.classList.remove('hidden');
         headerUpload.classList.remove('hidden');
       } else {
-        permBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> View Only Mode`;
+        permBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span> <span>View Only Mode</span>`;
         permBadge.className = 'mt-2.5 text-[11px] text-amber-400 flex items-center gap-1.5';
         dropZone.classList.add('hidden');
         headerUpload.classList.add('hidden');
       }
 
-      // Counts
       const photos = state.items.filter(i => i.type === 'image');
       const videos = state.items.filter(i => i.type === 'video');
       const favs = state.items.filter(i => i.favorite);
@@ -534,13 +550,11 @@
       document.getElementById('countVideos').textContent = videos.length;
       document.getElementById('countFavorites').textContent = favs.length;
 
-      // Storage meter
       const totalBytes = state.items.reduce((acc, i) => acc + (i.size || 0), 0);
       document.getElementById('storageUsedText').textContent = formatBytes(totalBytes);
       const pct = Math.min(100, Math.max(2, (totalBytes / (500 * 1024 * 1024)) * 100));
       document.getElementById('storageBar').style.width = pct + '%';
 
-      // Albums Sidebar
       const albumList = document.getElementById('albumList');
       albumList.innerHTML = '';
       state.albums.forEach(album => {
@@ -555,18 +569,18 @@
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
             <span class="truncate">${album}</span>
           </span>
-          <span class="text-xs text-zinc-500">${count}</span>
+          <span class="text-xs text-zinc-500 shrink-0">${count}</span>
         `;
         btn.onclick = () => {
           state.selectedAlbum = album;
           state.filter = 'album';
           updateNavHighlights();
+          closeMobileSidebar();
           renderUI();
         };
         albumList.appendChild(btn);
       });
 
-      // Filter & Sort Items
       let filtered = [...state.items];
       if (state.filter === 'image') filtered = filtered.filter(i => i.type === 'image');
       else if (state.filter === 'video') filtered = filtered.filter(i => i.type === 'video');
@@ -592,7 +606,6 @@
         return 0;
       });
 
-      // View Heading
       const headingMap = {
         all: 'All Media',
         image: 'Photos',
@@ -603,7 +616,6 @@
       document.getElementById('viewHeading').textContent = headingMap[state.filter] || 'All Media';
       document.getElementById('itemCountBadge').textContent = `${filtered.length} item${filtered.length === 1 ? '' : 's'}`;
 
-      // Grid Rendering
       const grid = document.getElementById('mediaGrid');
       const empty = document.getElementById('emptyState');
       grid.innerHTML = '';
@@ -618,38 +630,38 @@
 
           const isSelected = state.selectedIds.has(item.id);
           const card = document.createElement('div');
-          card.className = `group relative bg-vault-card border rounded-xl overflow-hidden cursor-pointer transition-all ${
+          card.className = `group relative bg-vault-card border rounded-xl overflow-hidden cursor-pointer transition-all min-w-0 ${
             isSelected ? 'border-indigo-500 ring-2 ring-indigo-500/40' : 'border-vault-border hover:border-zinc-600'
           }`;
 
           const mediaPreview = item.type === 'video'
-            ? `<video src="${url}" muted preload="metadata" class="w-full h-40 sm:h-44 object-cover bg-black"></video>
-               <div class="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/70 text-[10px] font-medium text-white flex items-center gap-1">
-                 <svg class="w-3 h-3 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+            ? `<video src="${url}" muted preload="metadata" class="w-full h-32 sm:h-44 object-cover bg-black"></video>
+               <div class="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 px-1.5 py-0.5 rounded bg-black/75 text-[9px] sm:text-[10px] font-medium text-white flex items-center gap-1">
+                 <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
                  VIDEO
                </div>`
-            : `<img src="${url}" alt="${item.title}" loading="lazy" class="w-full h-40 sm:h-44 object-cover bg-zinc-900" />`;
+            : `<img src="${url}" alt="${item.title}" loading="lazy" class="w-full h-32 sm:h-44 object-cover bg-zinc-900" />`;
 
           card.innerHTML = `
             <div class="relative">
               ${mediaPreview}
               ${state.selectMode ? `
-                <div class="absolute top-2 right-2 w-5 h-5 rounded-md border flex items-center justify-center ${
+                <div class="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 w-5 h-5 rounded-md border flex items-center justify-center text-xs ${
                   isSelected ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-black/60 border-zinc-400'
                 }">
                   ${isSelected ? '✓' : ''}
                 </div>
               ` : `
-                <button data-fav="${item.id}" class="fav-toggle-btn absolute top-2 right-2 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-white opacity-0 group-hover:opacity-100 transition ${item.favorite ? '!opacity-100 text-rose-500' : ''}">
+                <button data-fav="${item.id}" aria-label="Toggle favorite" class="fav-toggle-btn absolute top-1.5 right-1.5 sm:top-2 sm:right-2 p-1.5 rounded-full bg-black/60 hover:bg-black/80 text-white sm:opacity-0 sm:group-hover:opacity-100 transition ${item.favorite ? '!opacity-100 text-rose-500' : ''}">
                   <svg class="w-3.5 h-3.5" fill="${item.favorite ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                 </button>
               `}
             </div>
-            <div class="p-2.5">
+            <div class="p-2 sm:p-2.5 min-w-0">
               <p class="text-xs font-medium text-zinc-200 truncate">${item.title}</p>
-              <div class="flex items-center justify-between mt-1 text-[11px] text-zinc-500">
-                <span class="truncate max-w-[60%]">by ${item.uploader || 'Classmate'}</span>
-                <span>${formatBytes(item.size)}</span>
+              <div class="flex items-center justify-between gap-1 mt-1 text-[10px] sm:text-[11px] text-zinc-500">
+                <span class="truncate">by ${item.uploader || 'Classmate'}</span>
+                <span class="shrink-0">${formatBytes(item.size)}</span>
               </div>
             </div>
           `;
@@ -703,8 +715,8 @@
 
       const container = document.getElementById('lightboxMediaContainer');
       container.innerHTML = item.type === 'video'
-        ? `<video src="${url}" controls autoplay class="max-h-[80vh] max-w-full rounded-xl shadow-2xl"></video>`
-        : `<img src="${url}" alt="${item.title}" class="max-h-[80vh] max-w-full rounded-xl shadow-2xl object-contain" />`;
+        ? `<video src="${url}" controls autoplay playsinline class="max-h-[48vh] lg:max-h-[82vh] max-w-full rounded-xl shadow-2xl"></video>`
+        : `<img src="${url}" alt="${item.title}" class="max-h-[48vh] lg:max-h-[82vh] max-w-full rounded-xl shadow-2xl object-contain" />`;
 
       document.getElementById('inspectorTitle').value = item.title;
       document.getElementById('inspectorTags').value = (item.tags || []).join(', ');
@@ -877,6 +889,7 @@
         state.filter = btn.dataset.filter;
         state.selectedAlbum = null;
         updateNavHighlights();
+        closeMobileSidebar();
         renderUI();
       };
     });
@@ -921,14 +934,16 @@
     document.getElementById('modalCopyBtn').onclick = copyShareLink;
 
     // Inline User Name Edit
-    document.getElementById('editNameBtn').onclick = () => {
+    function promptEditName() {
       const next = prompt('Enter your display name:', state.userName);
       if (next && next.trim()) {
         state.userName = next.trim();
         saveMeta();
         renderUI();
       }
-    };
+    }
+    document.getElementById('editNameBtn').onclick = promptEditName;
+    document.getElementById('mobileEditNameBtn').onclick = promptEditName;
 
     // Settings Modal
     document.getElementById('settingsBtn').onclick = () => {
@@ -977,10 +992,7 @@
       sidebar.classList.remove('-translate-x-full');
       backdrop.classList.remove('hidden');
     };
-    backdrop.onclick = () => {
-      sidebar.classList.add('-translate-x-full');
-      backdrop.classList.add('hidden');
-    };
+    backdrop.onclick = closeMobileSidebar;
 
     // Initialize App
     refreshData();
