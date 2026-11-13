@@ -70,9 +70,9 @@
     <!-- Search & Actions -->
     <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
       <!-- Sync Status Pill -->
-      <button id="syncStatusBtn" title="Cloud Sync Settings" class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-vault-surface border border-vault-border hover:border-zinc-700 text-[11px] sm:text-xs text-zinc-300 transition">
-        <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
-        <span id="syncLabel" class="hidden sm:inline">Local Mode</span>
+      <button id="syncStatusBtn" title="Cloud Sync Status" class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-vault-surface border border-vault-border hover:border-zinc-700 text-[11px] sm:text-xs text-zinc-300 transition">
+        <span id="syncDot" class="w-2 h-2 rounded-full bg-indigo-400 animate-ping shrink-0"></span>
+        <span id="syncLabel" class="hidden sm:inline">Connecting...</span>
       </button>
 
       <div class="relative hidden lg:block w-56">
@@ -93,7 +93,7 @@
       </button>
 
       <!-- Link Settings Button -->
-      <button id="settingsBtn" title="Gallery & Cloud Sync Settings" class="p-1.5 sm:p-2 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-zinc-400 hover:text-white transition">
+      <button id="settingsBtn" title="Gallery Settings" class="p-1.5 sm:p-2 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-zinc-400 hover:text-white transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
       </button>
 
@@ -173,7 +173,7 @@
       <div class="p-4 border-t border-vault-border bg-vault-bg/40 space-y-2.5">
         <div>
           <div class="flex items-center justify-between text-xs text-zinc-400 mb-1.5">
-            <span>Cache & Media</span>
+            <span>Synced Media</span>
             <span id="storageUsedText">0 MB</span>
           </div>
           <div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
@@ -189,22 +189,6 @@
 
     <!-- Main Workspace -->
     <main class="flex-1 flex flex-col min-w-0 w-full p-3.5 sm:p-6">
-      <!-- Cloud Setup Banner (Shown until Firebase is connected) -->
-      <div id="cloudBanner" class="mb-4 p-3 sm:p-3.5 rounded-xl bg-indigo-950/35 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div class="flex items-start sm:items-center gap-2.5 min-w-0">
-          <div class="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400 shrink-0 mt-0.5 sm:mt-0">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
-          </div>
-          <div class="min-w-0">
-            <p class="text-xs sm:text-sm font-medium text-indigo-100">Enable Real-Time Sync for All Classmates</p>
-            <p class="text-[11px] sm:text-xs text-indigo-300/80">Paste your free Firebase config once so everyone with the link sees uploads live.</p>
-          </div>
-        </div>
-        <button id="openCloudSetupBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shrink-0 self-start sm:self-auto transition">
-          Connect Cloud Sync
-        </button>
-      </div>
-
       <!-- Toolbar -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-5">
         <div class="flex items-center justify-between sm:justify-start gap-2 min-w-0">
@@ -251,7 +235,7 @@
           <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
         </div>
         <p class="text-xs sm:text-sm font-medium text-zinc-200">Tap to choose or drag & drop photos & videos</p>
-        <p id="uploadHintText" class="text-[11px] sm:text-xs text-zinc-500 mt-1">JPG, PNG, WEBP, GIF, MP4, WEBM, MOV</p>
+        <p id="uploadHintText" class="text-[11px] sm:text-xs text-zinc-500 mt-1">Automatically synced live to everyone in this gallery</p>
       </div>
 
       <!-- Media Grid -->
@@ -265,7 +249,7 @@
           <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
         <h3 class="text-sm sm:text-base font-medium text-zinc-300">No media yet</h3>
-        <p class="text-xs text-zinc-500 max-w-xs mt-1">Upload photos or videos above to share them with your classmates.</p>
+        <p class="text-xs text-zinc-500 max-w-xs mt-1">Upload photos or videos above and all classmates with your link will see them instantly.</p>
       </div>
     </main>
   </div>
@@ -320,27 +304,25 @@
     </div>
   </div>
 
-  <!-- Settings & Cloud Sync Modal -->
+  <!-- Settings Modal -->
   <div id="settingsModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
-    <div class="bg-vault-surface border border-vault-border rounded-2xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-vault-surface border border-vault-border rounded-2xl max-w-md w-full p-4 sm:p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm sm:text-base font-semibold text-white">Gallery & Real-Time Cloud Sync</h3>
+        <h3 class="text-sm sm:text-base font-semibold text-white">Gallery & Share Settings</h3>
         <button id="closeSettingsBtn" class="text-zinc-400 hover:text-white p-1">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
       <div class="space-y-3.5">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-medium text-zinc-400 mb-1">Gallery Name</label>
-            <input id="settingGalleryName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
-          </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-400 mb-1">Gallery Name</label>
+          <input id="settingGalleryName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
+        </div>
 
-          <div>
-            <label class="block text-xs font-medium text-zinc-400 mb-1">Your Display Name</label>
-            <input id="settingUserName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
-          </div>
+        <div>
+          <label class="block text-xs font-medium text-zinc-400 mb-1">Your Display Name</label>
+          <input id="settingUserName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
         </div>
 
         <div>
@@ -351,21 +333,16 @@
           </select>
         </div>
 
-        <!-- Firebase Real-Time Sync Box -->
-        <div class="p-3 rounded-xl bg-vault-bg border border-vault-border space-y-2">
-          <div class="flex items-center justify-between">
-            <label class="text-xs font-semibold text-indigo-400">Firebase Cloud Sync (Free Real-Time Sharing)</label>
-            <span id="modalSyncStatus" class="text-[11px] text-zinc-400">Not connected</span>
+        <div class="p-3 rounded-xl bg-vault-bg border border-vault-border flex items-center justify-between">
+          <div>
+            <p class="text-xs font-medium text-zinc-200">Firebase Cloud Database</p>
+            <p class="text-[11px] text-zinc-500">Project: <span class="text-indigo-400 font-mono">test-d82b7</span></p>
           </div>
-          <p class="text-[11px] text-zinc-400 leading-relaxed">
-            1. Go to <a href="https://console.firebase.google.com" target="_blank" class="text-indigo-400 underline">Firebase Console</a> &rarr; Create free project &rarr; Enable <strong>Firestore Database</strong> (Test mode).<br/>
-            2. Register a Web App and paste the <code>firebaseConfig</code> JSON below. Your Share Link will automatically include it for all classmates!
-          </p>
-          <textarea id="firebaseConfigInput" rows="4" placeholder='{"apiKey": "...", "authDomain": "...", "projectId": "...", "storageBucket": "...", "messagingSenderId": "...", "appId": "..."}' class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-[11px] font-mono text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-indigo-500"></textarea>
+          <span id="modalSyncStatus" class="text-[11px] font-medium text-emerald-400">Built-in & Active</span>
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-zinc-400 mb-1">Classmate Share Link (Includes Gallery & Sync Room)</label>
+          <label class="block text-xs font-medium text-zinc-400 mb-1">Classmate Share Link</label>
           <div class="flex gap-2">
             <input id="shareUrlInput" type="text" readonly class="flex-1 min-w-0 bg-vault-bg border border-vault-border rounded-lg px-2.5 py-2 text-xs text-zinc-300 select-all" />
             <button id="modalCopyBtn" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shrink-0">Copy</button>
@@ -375,7 +352,7 @@
 
       <div class="pt-3 border-t border-vault-border flex justify-between items-center gap-2">
         <button id="newGalleryBtn" class="text-xs text-zinc-400 hover:text-white underline">New Gallery Room</button>
-        <button id="saveSettingsBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-medium text-white shrink-0">Save & Connect</button>
+        <button id="saveSettingsBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-medium text-white shrink-0">Save Settings</button>
       </div>
     </div>
   </div>
@@ -384,67 +361,41 @@
   <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-5 z-50 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs sm:text-sm text-white shadow-xl transform translate-y-24 opacity-0 transition-all duration-200 pointer-events-none max-w-[90vw] text-center truncate"></div>
 
   <script type="module">
-    import { initializeApp, getApps, deleteApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import {
       getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy
     } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-    // --- URL & Cloud Config Encoding (So classmates auto-connect from one link!) ---
-    function getUrlParams() {
-      return new URLSearchParams(window.location.search);
-    }
+    // Built-in Firebase Configuration (Zero setup required for any user!)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCAgFIIkBAn0Jt8T5CVHATjlz8Vr1k8rHo",
+      authDomain: "test-d82b7.firebaseapp.com",
+      projectId: "test-d82b7",
+      storageBucket: "test-d82b7.firebasestorage.app",
+      messagingSenderId: "508714112273",
+      appId: "1:508714112273:web:a4841e7893c381494968b0",
+      measurementId: "G-HR5DR6EQ0T"
+    };
 
-    function encodeConfig(cfg) {
-      try {
-        return btoa(encodeURIComponent(JSON.stringify(cfg)));
-      } catch (e) {
-        return '';
-      }
-    }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    function decodeConfig(str) {
-      try {
-        return JSON.parse(decodeURIComponent(atob(str)));
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function loadInitialFirebaseConfig() {
-      const urlSync = getUrlParams().get('sync');
-      if (urlSync) {
-        const parsed = decodeConfig(urlSync);
-        if (parsed && parsed.projectId) {
-          localStorage.setItem('av_firebaseConfig', JSON.stringify(parsed));
-          return parsed;
-        }
-      }
-      try {
-        const saved = localStorage.getItem('av_firebaseConfig');
-        return saved ? JSON.parse(saved) : null;
-      } catch (e) {
-        return null;
-      }
-    }
-
+    // --- Gallery Room Management ---
     function getGalleryId() {
-      const params = getUrlParams();
+      const params = new URLSearchParams(window.location.search);
       let id = params.get('gallery');
       if (!id) {
         id = 'class-' + Math.random().toString(36).substring(2, 8);
-        syncBrowserUrl(id, loadInitialFirebaseConfig());
+        syncBrowserUrl(id);
       }
       return id;
     }
 
-    function syncBrowserUrl(galleryId, fbConfig) {
+    function syncBrowserUrl(galleryId) {
       try {
         const cleanUrl = new URL(window.location.href);
         if (cleanUrl.protocol.startsWith('http')) {
           cleanUrl.searchParams.set('gallery', galleryId);
-          if (fbConfig && fbConfig.projectId) {
-            cleanUrl.searchParams.set('sync', encodeConfig(fbConfig));
-          }
           window.history.replaceState({}, '', cleanUrl.toString());
         }
       } catch (e) {}
@@ -452,22 +403,19 @@
 
     function getCleanShareUrl() {
       const galleryId = state.galleryId;
-      const syncParam = state.firebaseConfig ? `&sync=${encodeURIComponent(encodeConfig(state.firebaseConfig))}` : '';
       try {
         const origin = window.location.origin;
         const pathname = window.location.pathname;
         if (origin && origin.startsWith('http')) {
-          return `${origin}${pathname}?gallery=${encodeURIComponent(galleryId)}${syncParam}`;
+          return `${origin}${pathname}?gallery=${encodeURIComponent(galleryId)}`;
         }
       } catch (e) {}
-      return `https://your-site.netlify.app/?gallery=${encodeURIComponent(galleryId)}${syncParam}`;
+      return `https://your-site.netlify.app/?gallery=${encodeURIComponent(galleryId)}`;
     }
 
     // --- State Management ---
     const state = {
       galleryId: getGalleryId(),
-      firebaseConfig: loadInitialFirebaseConfig(),
-      db: null,
       unsubscribeSnapshot: null,
       cloudConnected: false,
       galleryName: localStorage.getItem('av_galleryName') || 'Class Media Vault',
@@ -486,16 +434,16 @@
     };
 
     // --- IndexedDB Offline Cache ---
-    const DB_NAME = 'AetherVaultDB_v3';
+    const DB_NAME = 'AetherVaultDB_v4';
     const STORE_NAME = 'media';
 
     function openLocalDB() {
       return new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, 1);
         req.onupgradeneeded = (e) => {
-          const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          const idb = e.target.result;
+          if (!idb.objectStoreNames.contains(STORE_NAME)) {
+            idb.createObjectStore(STORE_NAME, { keyPath: 'id' });
           }
         };
         req.onsuccess = () => resolve(req.result);
@@ -504,9 +452,9 @@
     }
 
     async function localGetAll() {
-      const db = await openLocalDB();
+      const idb = await openLocalDB();
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
+        const tx = idb.transaction(STORE_NAME, 'readonly');
         const req = tx.objectStore(STORE_NAME).getAll();
         req.onsuccess = () => {
           const all = req.result || [];
@@ -517,9 +465,9 @@
     }
 
     async function localPut(item) {
-      const db = await openLocalDB();
+      const idb = await openLocalDB();
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = idb.transaction(STORE_NAME, 'readwrite');
         tx.objectStore(STORE_NAME).put(item);
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
@@ -527,16 +475,16 @@
     }
 
     async function localDelete(id) {
-      const db = await openLocalDB();
+      const idb = await openLocalDB();
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const tx = idb.transaction(STORE_NAME, 'readwrite');
         tx.objectStore(STORE_NAME).delete(id);
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
       });
     }
 
-    // --- Image Compression & Media Serialization for Real-Time Sync ---
+    // --- Image Compression & Media Serialization ---
     function compressImageToDataUrl(file, maxDim = 1280, quality = 0.78) {
       return new Promise((resolve, reject) => {
         const img = new Image();
@@ -577,82 +525,59 @@
       });
     }
 
-    // --- Firebase Real-Time Engine ---
-    async function initCloudSync() {
+    // --- Real-Time Firestore Sync Listener ---
+    async function startRealtimeSync() {
       if (state.unsubscribeSnapshot) {
         state.unsubscribeSnapshot();
         state.unsubscribeSnapshot = null;
       }
-      state.cloudConnected = false;
 
-      if (!state.firebaseConfig || !state.firebaseConfig.projectId) {
-        updateSyncIndicator();
-        state.items = await localGetAll();
-        renderUI();
-        return;
-      }
+      // Load local cache immediately while connecting
+      state.items = await localGetAll();
+      renderUI();
 
-      try {
-        for (const app of getApps()) {
-          await deleteApp(app);
-        }
-        const app = initializeApp(state.firebaseConfig);
-        state.db = getFirestore(app);
+      const mediaCol = collection(db, 'galleries', state.galleryId, 'media');
+      const q = query(mediaCol, orderBy('createdAt', 'desc'));
 
-        const mediaCol = collection(state.db, 'galleries', state.galleryId, 'media');
-        const q = query(mediaCol, orderBy('createdAt', 'desc'));
+      state.unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+        state.cloudConnected = true;
+        updateSyncIndicator(true);
 
-        state.unsubscribeSnapshot = onSnapshot(q, async (snapshot) => {
-          state.cloudConnected = true;
-          updateSyncIndicator();
-
-          const syncedItems = [];
-          snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            syncedItems.push(data);
-            if (data.album && !state.albums.includes(data.album)) {
-              state.albums.push(data.album);
-              saveMeta();
-            }
-          });
-
-          state.items = syncedItems;
-          renderUI();
-        }, (error) => {
-          console.error('Firestore sync error:', error);
-          state.cloudConnected = false;
-          updateSyncIndicator();
-          showToast('Cloud sync error. Check Firestore rules.');
+        const syncedItems = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          syncedItems.push(data);
+          if (data.album && !state.albums.includes(data.album)) {
+            state.albums.push(data.album);
+            saveMeta();
+          }
         });
-      } catch (err) {
-        console.error('Firebase init failed:', err);
+
+        state.items = syncedItems;
+        renderUI();
+      }, (error) => {
+        console.error('Firestore sync error:', error);
         state.cloudConnected = false;
-        updateSyncIndicator();
-      }
+        updateSyncIndicator(false);
+        showToast('Sync error: Check Firestore Security Rules in Firebase Console.');
+      });
     }
 
-    function updateSyncIndicator() {
+    function updateSyncIndicator(isConnected) {
       const dot = document.getElementById('syncDot');
       const label = document.getElementById('syncLabel');
-      const banner = document.getElementById('cloudBanner');
       const modalStatus = document.getElementById('modalSyncStatus');
 
-      if (state.cloudConnected) {
+      if (isConnected) {
         dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0';
         label.textContent = 'Live Sync';
-        banner.classList.add('hidden');
         modalStatus.textContent = 'Connected (Live Sync Active)';
-        modalStatus.className = 'text-[11px] text-emerald-400 font-medium';
-      } else if (state.firebaseConfig) {
-        dot.className = 'w-2 h-2 rounded-full bg-indigo-400 animate-ping shrink-0';
-        label.textContent = 'Connecting...';
-        modalStatus.textContent = 'Connecting...';
+        modalStatus.className = 'text-[11px] font-medium text-emerald-400';
       } else {
-        dot.className = 'w-2 h-2 rounded-full bg-amber-400 shrink-0';
-        label.textContent = 'Local Mode';
-        banner.classList.remove('hidden');
-        modalStatus.textContent = 'Not connected (Device-only)';
-        modalStatus.className = 'text-[11px] text-amber-400';
+        dot.className = 'w-2 h-2 rounded-full bg-rose-500 shrink-0';
+        label.textContent = 'Sync Offline';
+        modalStatus.textContent = 'Disconnected (Check Firestore rules)';
+        modalStatus.className = 'text-[11px] font-medium text-rose-400';
       }
     }
 
@@ -663,7 +588,7 @@
       toast.classList.remove('translate-y-24', 'opacity-0');
       setTimeout(() => {
         toast.classList.add('translate-y-24', 'opacity-0');
-      }, 2800);
+      }, 3000);
     }
 
     function formatBytes(bytes) {
@@ -686,27 +611,17 @@
       document.getElementById('sidebarBackdrop').classList.add('hidden');
     }
 
-    // --- Unified Save & Delete (Syncs to Cloud + Local Cache) ---
+    // --- Unified Save & Delete ---
     async function saveMediaRecord(record) {
       await localPut(record);
-      if (state.db && state.firebaseConfig) {
-        const docRef = doc(state.db, 'galleries', state.galleryId, 'media', record.id);
-        await setDoc(docRef, record);
-      } else {
-        state.items = await localGetAll();
-        renderUI();
-      }
+      const docRef = doc(db, 'galleries', state.galleryId, 'media', record.id);
+      await setDoc(docRef, record);
     }
 
     async function deleteMediaRecord(id) {
       await localDelete(id);
-      if (state.db && state.firebaseConfig) {
-        const docRef = doc(state.db, 'galleries', state.galleryId, 'media', id);
-        await deleteDoc(docRef);
-      } else {
-        state.items = await localGetAll();
-        renderUI();
-      }
+      const docRef = doc(db, 'galleries', state.galleryId, 'media', id);
+      await deleteDoc(docRef);
     }
 
     // --- File Upload Processing ---
@@ -721,7 +636,7 @@
         return;
       }
 
-      showToast(`Syncing ${files.length} file(s)...`);
+      showToast(`Uploading & syncing ${files.length} file(s)...`);
       let uploadedCount = 0;
 
       for (const file of files) {
@@ -730,20 +645,17 @@
           let dataUrl = '';
 
           if (isVideo) {
-            if (state.cloudConnected && file.size > 750 * 1024) {
-              showToast(`Skipped "${file.name}" (Videos over 750KB exceed free Firestore sync limit)`);
+            if (file.size > 750 * 1024) {
+              showToast(`Skipped "${file.name}" (Videos over 750KB exceed Firestore sync limit)`);
               continue;
             }
             dataUrl = await fileToDataUrl(file);
           } else {
-            // Auto-optimize photos so they sync rapidly across all classmates' phones
             dataUrl = await compressImageToDataUrl(file, 1280, 0.78);
-          }
-
-          const approxBytes = Math.round((dataUrl.length * 3) / 4);
-          if (state.cloudConnected && approxBytes > 950 * 1024) {
-            // Re-compress at lower quality if still near 1MB Firestore doc limit
-            dataUrl = await compressImageToDataUrl(file, 960, 0.65);
+            const approxBytes = Math.round((dataUrl.length * 3) / 4);
+            if (approxBytes > 920 * 1024) {
+              dataUrl = await compressImageToDataUrl(file, 960, 0.65);
+            }
           }
 
           const id = 'media_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
@@ -772,10 +684,7 @@
       }
 
       if (uploadedCount > 0) {
-        showToast(state.cloudConnected
-          ? `Synced ${uploadedCount} file(s) live to all classmates!`
-          : `Saved ${uploadedCount} file(s) locally!`
-        );
+        showToast(`Synced ${uploadedCount} file(s) live to everyone!`);
       }
     }
 
@@ -1187,10 +1096,7 @@
       const url = getCleanShareUrl();
       try {
         await navigator.clipboard.writeText(url);
-        showToast(state.cloudConnected
-          ? 'Live-synced share link copied!'
-          : 'Gallery link copied (Connect Cloud Sync to share photos across devices)'
-        );
+        showToast('Share link copied! Anyone with this link syncs live.');
       } catch (e) {
         prompt('Copy this link to share with classmates:', url);
       }
@@ -1215,9 +1121,6 @@
       document.getElementById('settingGalleryName').value = state.galleryName;
       document.getElementById('settingUserName').value = state.userName;
       document.getElementById('settingPermission').value = state.permission;
-      document.getElementById('firebaseConfigInput').value = state.firebaseConfig
-        ? JSON.stringify(state.firebaseConfig, null, 2)
-        : '';
       document.getElementById('shareUrlInput').value = getCleanShareUrl();
       document.getElementById('settingsModal').classList.remove('hidden');
       document.getElementById('settingsModal').classList.add('flex');
@@ -1225,65 +1128,28 @@
 
     document.getElementById('settingsBtn').onclick = openSettingsModal;
     document.getElementById('syncStatusBtn').onclick = openSettingsModal;
-    document.getElementById('openCloudSetupBtn').onclick = openSettingsModal;
 
     document.getElementById('closeSettingsBtn').onclick = () => {
       document.getElementById('settingsModal').classList.add('hidden');
       document.getElementById('settingsModal').classList.remove('flex');
     };
 
-    function parseLooseFirebaseConfig(raw) {
-      if (!raw || !raw.trim()) return null;
-      try {
-        return JSON.parse(raw);
-      } catch (e) {
-        // Also support JS object literal pasted directly from Firebase Console
-        try {
-          const objMatch = raw.match(/\{[\s\S]*\}/);
-          if (!objMatch) return null;
-          const fixed = objMatch[0]
-            .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
-            .replace(/'/g, '"')
-            .replace(/,\s*}/g, '}');
-          return JSON.parse(fixed);
-        } catch (err) {
-          return null;
-        }
-      }
-    }
-
-    document.getElementById('saveSettingsBtn').onclick = async () => {
+    document.getElementById('saveSettingsBtn').onclick = () => {
       state.galleryName = document.getElementById('settingGalleryName').value.trim() || 'Class Media Vault';
       state.userName = document.getElementById('settingUserName').value.trim() || 'Classmate';
       state.permission = document.getElementById('settingPermission').value;
-
-      const rawCfg = document.getElementById('firebaseConfigInput').value.trim();
-      if (rawCfg) {
-        const parsed = parseLooseFirebaseConfig(rawCfg);
-        if (!parsed || !parsed.projectId) {
-          showToast('Invalid Firebase config. Please paste the full firebaseConfig object.');
-          return;
-        }
-        state.firebaseConfig = parsed;
-        localStorage.setItem('av_firebaseConfig', JSON.stringify(parsed));
-      } else {
-        state.firebaseConfig = null;
-        localStorage.removeItem('av_firebaseConfig');
-      }
-
       saveMeta();
-      syncBrowserUrl(state.galleryId, state.firebaseConfig);
+      renderUI();
       document.getElementById('closeSettingsBtn').click();
-      await initCloudSync();
-      showToast(state.firebaseConfig ? 'Cloud sync connected!' : 'Settings saved');
+      showToast('Settings saved');
     };
 
     document.getElementById('newGalleryBtn').onclick = async () => {
       const newId = 'class-' + Math.random().toString(36).substring(2, 8);
       state.galleryId = newId;
-      syncBrowserUrl(newId, state.firebaseConfig);
+      syncBrowserUrl(newId);
       document.getElementById('closeSettingsBtn').click();
-      await initCloudSync();
+      await startRealtimeSync();
       showToast('Started a fresh gallery room');
     };
 
@@ -1296,8 +1162,8 @@
     };
     backdrop.onclick = closeMobileSidebar;
 
-    // Initialize App
-    initCloudSync();
+    // Initialize Real-Time Sync Immediately
+    startRealtimeSync();
   </script>
 </body>
 </html>
