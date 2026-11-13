@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AetherVault — Shared Media Gallery</title>
+  <title>AetherVault — Real-Time Shared Media Gallery</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -61,21 +61,29 @@
         <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/20">
           <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
-        <h1 id="galleryTitleDisplay" class="font-semibold text-sm sm:text-lg tracking-tight truncate">Class Media Vault</h1>
+        <div class="min-w-0">
+          <h1 id="galleryTitleDisplay" class="font-semibold text-sm sm:text-lg tracking-tight truncate">Class Media Vault</h1>
+        </div>
       </div>
     </div>
 
     <!-- Search & Actions -->
-    <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
-      <div class="relative hidden lg:block w-64">
-        <input id="searchInput" type="text" placeholder="Search photos, videos, tags..." class="w-full bg-vault-surface border border-vault-border rounded-lg pl-9 pr-3 py-1.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition" />
-        <svg class="w-4 h-4 text-zinc-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+      <!-- Sync Status Pill -->
+      <button id="syncStatusBtn" title="Cloud Sync Settings" class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-vault-surface border border-vault-border hover:border-zinc-700 text-[11px] sm:text-xs text-zinc-300 transition">
+        <span id="syncDot" class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+        <span id="syncLabel" class="hidden sm:inline">Local Mode</span>
+      </button>
+
+      <div class="relative hidden lg:block w-56">
+        <input id="searchInput" type="text" placeholder="Search photos, videos..." class="w-full bg-vault-surface border border-vault-border rounded-lg pl-8 pr-3 py-1.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-indigo-500 transition" />
+        <svg class="w-4 h-4 text-zinc-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
 
       <!-- Editable User Name Pill (Desktop) -->
       <button id="editNameBtn" title="Click to change your display name" class="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-vault-surface border border-vault-border hover:border-zinc-700 text-xs text-zinc-300 transition">
         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span id="userNameDisplay" class="max-w-[100px] truncate">Classmate</span>
+        <span id="userNameDisplay" class="max-w-[90px] truncate">Classmate</span>
       </button>
 
       <!-- Share Link Button -->
@@ -85,7 +93,7 @@
       </button>
 
       <!-- Link Settings Button -->
-      <button id="settingsBtn" title="Gallery Settings" class="p-1.5 sm:p-2 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-zinc-400 hover:text-white transition">
+      <button id="settingsBtn" title="Gallery & Cloud Sync Settings" class="p-1.5 sm:p-2 rounded-lg bg-vault-surface hover:bg-zinc-800 border border-vault-border text-zinc-400 hover:text-white transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
       </button>
 
@@ -161,16 +169,18 @@
         </div>
       </div>
 
-      <!-- Storage Meter Footer -->
-      <div class="p-4 border-t border-vault-border bg-vault-bg/40">
-        <div class="flex items-center justify-between text-xs text-zinc-400 mb-1.5">
-          <span>Browser Storage</span>
-          <span id="storageUsedText">0 MB</span>
+      <!-- Storage & Sync Footer -->
+      <div class="p-4 border-t border-vault-border bg-vault-bg/40 space-y-2.5">
+        <div>
+          <div class="flex items-center justify-between text-xs text-zinc-400 mb-1.5">
+            <span>Cache & Media</span>
+            <span id="storageUsedText">0 MB</span>
+          </div>
+          <div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+            <div id="storageBar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 2%"></div>
+          </div>
         </div>
-        <div class="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-          <div id="storageBar" class="h-full bg-indigo-500 rounded-full transition-all duration-300" style="width: 2%"></div>
-        </div>
-        <p id="permissionBadge" class="mt-2.5 text-[11px] text-emerald-400 flex items-center gap-1.5">
+        <p id="permissionBadge" class="text-[11px] text-emerald-400 flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
           <span>Upload & View Enabled</span>
         </p>
@@ -179,6 +189,22 @@
 
     <!-- Main Workspace -->
     <main class="flex-1 flex flex-col min-w-0 w-full p-3.5 sm:p-6">
+      <!-- Cloud Setup Banner (Shown until Firebase is connected) -->
+      <div id="cloudBanner" class="mb-4 p-3 sm:p-3.5 rounded-xl bg-indigo-950/35 border border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="flex items-start sm:items-center gap-2.5 min-w-0">
+          <div class="p-1.5 rounded-lg bg-indigo-500/20 text-indigo-400 shrink-0 mt-0.5 sm:mt-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+          </div>
+          <div class="min-w-0">
+            <p class="text-xs sm:text-sm font-medium text-indigo-100">Enable Real-Time Sync for All Classmates</p>
+            <p class="text-[11px] sm:text-xs text-indigo-300/80">Paste your free Firebase config once so everyone with the link sees uploads live.</p>
+          </div>
+        </div>
+        <button id="openCloudSetupBtn" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shrink-0 self-start sm:self-auto transition">
+          Connect Cloud Sync
+        </button>
+      </div>
+
       <!-- Toolbar -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-5">
         <div class="flex items-center justify-between sm:justify-start gap-2 min-w-0">
@@ -206,7 +232,7 @@
         </div>
       </div>
 
-      <!-- Bulk Actions Bar (Hidden until Select mode active) -->
+      <!-- Bulk Actions Bar -->
       <div id="bulkBar" class="hidden mb-4 p-2.5 sm:p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30 flex flex-wrap items-center justify-between gap-2.5">
         <div class="flex items-center gap-2.5">
           <span id="selectedCountText" class="text-xs sm:text-sm font-medium text-indigo-200">0 selected</span>
@@ -225,7 +251,7 @@
           <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
         </div>
         <p class="text-xs sm:text-sm font-medium text-zinc-200">Tap to choose or drag & drop photos & videos</p>
-        <p class="text-[11px] sm:text-xs text-zinc-500 mt-1">JPG, PNG, WEBP, GIF, MP4, WEBM, MOV</p>
+        <p id="uploadHintText" class="text-[11px] sm:text-xs text-zinc-500 mt-1">JPG, PNG, WEBP, GIF, MP4, WEBM, MOV</p>
       </div>
 
       <!-- Media Grid -->
@@ -238,8 +264,8 @@
         <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-3">
           <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
-        <h3 class="text-sm sm:text-base font-medium text-zinc-300">No media found</h3>
-        <p class="text-xs text-zinc-500 max-w-xs mt-1">Upload images or videos above, or adjust your active filters and search query.</p>
+        <h3 class="text-sm sm:text-base font-medium text-zinc-300">No media yet</h3>
+        <p class="text-xs text-zinc-500 max-w-xs mt-1">Upload photos or videos above to share them with your classmates.</p>
       </div>
     </main>
   </div>
@@ -294,25 +320,27 @@
     </div>
   </div>
 
-  <!-- Settings Modal -->
+  <!-- Settings & Cloud Sync Modal -->
   <div id="settingsModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
-    <div class="bg-vault-surface border border-vault-border rounded-2xl max-w-md w-full p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-vault-surface border border-vault-border rounded-2xl max-w-lg w-full p-4 sm:p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between">
-        <h3 class="text-sm sm:text-base font-semibold text-white">Gallery & Share Settings</h3>
+        <h3 class="text-sm sm:text-base font-semibold text-white">Gallery & Real-Time Cloud Sync</h3>
         <button id="closeSettingsBtn" class="text-zinc-400 hover:text-white p-1">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="space-y-3.5 sm:space-y-4">
-        <div>
-          <label class="block text-xs font-medium text-zinc-400 mb-1">Gallery Name</label>
-          <input id="settingGalleryName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
-        </div>
+      <div class="space-y-3.5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">Gallery Name</label>
+            <input id="settingGalleryName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
+          </div>
 
-        <div>
-          <label class="block text-xs font-medium text-zinc-400 mb-1">Your Display Name</label>
-          <input id="settingUserName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
+          <div>
+            <label class="block text-xs font-medium text-zinc-400 mb-1">Your Display Name</label>
+            <input id="settingUserName" type="text" class="w-full bg-vault-bg border border-vault-border rounded-lg px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-indigo-500" />
+          </div>
         </div>
 
         <div>
@@ -323,8 +351,21 @@
           </select>
         </div>
 
+        <!-- Firebase Real-Time Sync Box -->
+        <div class="p-3 rounded-xl bg-vault-bg border border-vault-border space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-semibold text-indigo-400">Firebase Cloud Sync (Free Real-Time Sharing)</label>
+            <span id="modalSyncStatus" class="text-[11px] text-zinc-400">Not connected</span>
+          </div>
+          <p class="text-[11px] text-zinc-400 leading-relaxed">
+            1. Go to <a href="https://console.firebase.google.com" target="_blank" class="text-indigo-400 underline">Firebase Console</a> &rarr; Create free project &rarr; Enable <strong>Firestore Database</strong> (Test mode).<br/>
+            2. Register a Web App and paste the <code>firebaseConfig</code> JSON below. Your Share Link will automatically include it for all classmates!
+          </p>
+          <textarea id="firebaseConfigInput" rows="4" placeholder='{"apiKey": "...", "authDomain": "...", "projectId": "...", "storageBucket": "...", "messagingSenderId": "...", "appId": "..."}' class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-2.5 text-[11px] font-mono text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-indigo-500"></textarea>
+        </div>
+
         <div>
-          <label class="block text-xs font-medium text-zinc-400 mb-1">Shareable Link</label>
+          <label class="block text-xs font-medium text-zinc-400 mb-1">Classmate Share Link (Includes Gallery & Sync Room)</label>
           <div class="flex gap-2">
             <input id="shareUrlInput" type="text" readonly class="flex-1 min-w-0 bg-vault-bg border border-vault-border rounded-lg px-2.5 py-2 text-xs text-zinc-300 select-all" />
             <button id="modalCopyBtn" class="px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-medium text-white shrink-0">Copy</button>
@@ -333,8 +374,8 @@
       </div>
 
       <div class="pt-3 border-t border-vault-border flex justify-between items-center gap-2">
-        <button id="newGalleryBtn" class="text-xs text-zinc-400 hover:text-white underline">Start Blank Gallery</button>
-        <button id="saveSettingsBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-medium text-white shrink-0">Save Changes</button>
+        <button id="newGalleryBtn" class="text-xs text-zinc-400 hover:text-white underline">New Gallery Room</button>
+        <button id="saveSettingsBtn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs sm:text-sm font-medium text-white shrink-0">Save & Connect</button>
       </div>
     </div>
   </div>
@@ -342,39 +383,93 @@
   <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-5 z-50 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-xs sm:text-sm text-white shadow-xl transform translate-y-24 opacity-0 transition-all duration-200 pointer-events-none max-w-[90vw] text-center truncate"></div>
 
-  <script>
-    // --- Safe URL & Gallery ID Setup ---
+  <script type="module">
+    import { initializeApp, getApps, deleteApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import {
+      getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    // --- URL & Cloud Config Encoding (So classmates auto-connect from one link!) ---
+    function getUrlParams() {
+      return new URLSearchParams(window.location.search);
+    }
+
+    function encodeConfig(cfg) {
+      try {
+        return btoa(encodeURIComponent(JSON.stringify(cfg)));
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function decodeConfig(str) {
+      try {
+        return JSON.parse(decodeURIComponent(atob(str)));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function loadInitialFirebaseConfig() {
+      const urlSync = getUrlParams().get('sync');
+      if (urlSync) {
+        const parsed = decodeConfig(urlSync);
+        if (parsed && parsed.projectId) {
+          localStorage.setItem('av_firebaseConfig', JSON.stringify(parsed));
+          return parsed;
+        }
+      }
+      try {
+        const saved = localStorage.getItem('av_firebaseConfig');
+        return saved ? JSON.parse(saved) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
     function getGalleryId() {
-      const params = new URLSearchParams(window.location.search);
+      const params = getUrlParams();
       let id = params.get('gallery');
       if (!id) {
         id = 'class-' + Math.random().toString(36).substring(2, 8);
-        try {
-          const cleanUrl = new URL(window.location.href);
-          if (cleanUrl.protocol.startsWith('http')) {
-            cleanUrl.searchParams.set('gallery', id);
-            window.history.replaceState({}, '', cleanUrl.toString());
-          }
-        } catch (e) {}
+        syncBrowserUrl(id, loadInitialFirebaseConfig());
       }
       return id;
     }
 
+    function syncBrowserUrl(galleryId, fbConfig) {
+      try {
+        const cleanUrl = new URL(window.location.href);
+        if (cleanUrl.protocol.startsWith('http')) {
+          cleanUrl.searchParams.set('gallery', galleryId);
+          if (fbConfig && fbConfig.projectId) {
+            cleanUrl.searchParams.set('sync', encodeConfig(fbConfig));
+          }
+          window.history.replaceState({}, '', cleanUrl.toString());
+        }
+      } catch (e) {}
+    }
+
     function getCleanShareUrl() {
       const galleryId = state.galleryId;
+      const syncParam = state.firebaseConfig ? `&sync=${encodeURIComponent(encodeConfig(state.firebaseConfig))}` : '';
       try {
         const origin = window.location.origin;
         const pathname = window.location.pathname;
         if (origin && origin.startsWith('http')) {
-          return `${origin}${pathname}?gallery=${encodeURIComponent(galleryId)}`;
+          return `${origin}${pathname}?gallery=${encodeURIComponent(galleryId)}${syncParam}`;
         }
       } catch (e) {}
-      return `https://your-site.netlify.app/?gallery=${encodeURIComponent(galleryId)}`;
+      return `https://your-site.netlify.app/?gallery=${encodeURIComponent(galleryId)}${syncParam}`;
     }
 
     // --- State Management ---
     const state = {
       galleryId: getGalleryId(),
+      firebaseConfig: loadInitialFirebaseConfig(),
+      db: null,
+      unsubscribeSnapshot: null,
+      cloudConnected: false,
       galleryName: localStorage.getItem('av_galleryName') || 'Class Media Vault',
       userName: localStorage.getItem('av_userName') || 'Classmate',
       permission: localStorage.getItem('av_permission') || 'upload',
@@ -390,11 +485,11 @@
       activeObjectUrls: []
     };
 
-    // --- IndexedDB Persistence ---
-    const DB_NAME = 'AetherVaultDB_v2';
+    // --- IndexedDB Offline Cache ---
+    const DB_NAME = 'AetherVaultDB_v3';
     const STORE_NAME = 'media';
 
-    function openDB() {
+    function openLocalDB() {
       return new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, 1);
         req.onupgradeneeded = (e) => {
@@ -408,12 +503,11 @@
       });
     }
 
-    async function dbGetAll() {
-      const db = await openDB();
+    async function localGetAll() {
+      const db = await openLocalDB();
       return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.getAll();
+        const req = tx.objectStore(STORE_NAME).getAll();
         req.onsuccess = () => {
           const all = req.result || [];
           resolve(all.filter(item => item.galleryId === state.galleryId));
@@ -422,8 +516,8 @@
       });
     }
 
-    async function dbPut(item) {
-      const db = await openDB();
+    async function localPut(item) {
+      const db = await openLocalDB();
       return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE_NAME, 'readwrite');
         tx.objectStore(STORE_NAME).put(item);
@@ -432,14 +526,134 @@
       });
     }
 
-    async function dbDelete(id) {
-      const db = await openDB();
+    async function localDelete(id) {
+      const db = await openLocalDB();
       return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE_NAME, 'readwrite');
         tx.objectStore(STORE_NAME).delete(id);
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
       });
+    }
+
+    // --- Image Compression & Media Serialization for Real-Time Sync ---
+    function compressImageToDataUrl(file, maxDim = 1280, quality = 0.78) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          let { width, height } = img;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = (err) => {
+          URL.revokeObjectURL(url);
+          reject(err);
+        };
+        img.src = url;
+      });
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // --- Firebase Real-Time Engine ---
+    async function initCloudSync() {
+      if (state.unsubscribeSnapshot) {
+        state.unsubscribeSnapshot();
+        state.unsubscribeSnapshot = null;
+      }
+      state.cloudConnected = false;
+
+      if (!state.firebaseConfig || !state.firebaseConfig.projectId) {
+        updateSyncIndicator();
+        state.items = await localGetAll();
+        renderUI();
+        return;
+      }
+
+      try {
+        for (const app of getApps()) {
+          await deleteApp(app);
+        }
+        const app = initializeApp(state.firebaseConfig);
+        state.db = getFirestore(app);
+
+        const mediaCol = collection(state.db, 'galleries', state.galleryId, 'media');
+        const q = query(mediaCol, orderBy('createdAt', 'desc'));
+
+        state.unsubscribeSnapshot = onSnapshot(q, async (snapshot) => {
+          state.cloudConnected = true;
+          updateSyncIndicator();
+
+          const syncedItems = [];
+          snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            syncedItems.push(data);
+            if (data.album && !state.albums.includes(data.album)) {
+              state.albums.push(data.album);
+              saveMeta();
+            }
+          });
+
+          state.items = syncedItems;
+          renderUI();
+        }, (error) => {
+          console.error('Firestore sync error:', error);
+          state.cloudConnected = false;
+          updateSyncIndicator();
+          showToast('Cloud sync error. Check Firestore rules.');
+        });
+      } catch (err) {
+        console.error('Firebase init failed:', err);
+        state.cloudConnected = false;
+        updateSyncIndicator();
+      }
+    }
+
+    function updateSyncIndicator() {
+      const dot = document.getElementById('syncDot');
+      const label = document.getElementById('syncLabel');
+      const banner = document.getElementById('cloudBanner');
+      const modalStatus = document.getElementById('modalSyncStatus');
+
+      if (state.cloudConnected) {
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0';
+        label.textContent = 'Live Sync';
+        banner.classList.add('hidden');
+        modalStatus.textContent = 'Connected (Live Sync Active)';
+        modalStatus.className = 'text-[11px] text-emerald-400 font-medium';
+      } else if (state.firebaseConfig) {
+        dot.className = 'w-2 h-2 rounded-full bg-indigo-400 animate-ping shrink-0';
+        label.textContent = 'Connecting...';
+        modalStatus.textContent = 'Connecting...';
+      } else {
+        dot.className = 'w-2 h-2 rounded-full bg-amber-400 shrink-0';
+        label.textContent = 'Local Mode';
+        banner.classList.remove('hidden');
+        modalStatus.textContent = 'Not connected (Device-only)';
+        modalStatus.className = 'text-[11px] text-amber-400';
+      }
     }
 
     // --- Helpers ---
@@ -449,7 +663,7 @@
       toast.classList.remove('translate-y-24', 'opacity-0');
       setTimeout(() => {
         toast.classList.add('translate-y-24', 'opacity-0');
-      }, 2600);
+      }, 2800);
     }
 
     function formatBytes(bytes) {
@@ -472,6 +686,29 @@
       document.getElementById('sidebarBackdrop').classList.add('hidden');
     }
 
+    // --- Unified Save & Delete (Syncs to Cloud + Local Cache) ---
+    async function saveMediaRecord(record) {
+      await localPut(record);
+      if (state.db && state.firebaseConfig) {
+        const docRef = doc(state.db, 'galleries', state.galleryId, 'media', record.id);
+        await setDoc(docRef, record);
+      } else {
+        state.items = await localGetAll();
+        renderUI();
+      }
+    }
+
+    async function deleteMediaRecord(id) {
+      await localDelete(id);
+      if (state.db && state.firebaseConfig) {
+        const docRef = doc(state.db, 'galleries', state.galleryId, 'media', id);
+        await deleteDoc(docRef);
+      } else {
+        state.items = await localGetAll();
+        renderUI();
+      }
+    }
+
     // --- File Upload Processing ---
     async function handleFiles(fileList) {
       if (state.permission === 'view') {
@@ -484,37 +721,73 @@
         return;
       }
 
-      showToast(`Uploading ${files.length} file(s)...`);
+      showToast(`Syncing ${files.length} file(s)...`);
+      let uploadedCount = 0;
 
       for (const file of files) {
-        const id = 'media_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
-        const type = file.type.startsWith('video/') ? 'video' : 'image';
-        const record = {
-          id,
-          galleryId: state.galleryId,
-          title: file.name.replace(/\.[^/.]+$/, ''),
-          fileName: file.name,
-          mimeType: file.type,
-          type,
-          size: file.size,
-          blob: file,
-          album: state.selectedAlbum || '',
-          tags: [],
-          favorite: false,
-          uploader: state.userName,
-          createdAt: Date.now()
-        };
-        await dbPut(record);
+        try {
+          const isVideo = file.type.startsWith('video/');
+          let dataUrl = '';
+
+          if (isVideo) {
+            if (state.cloudConnected && file.size > 750 * 1024) {
+              showToast(`Skipped "${file.name}" (Videos over 750KB exceed free Firestore sync limit)`);
+              continue;
+            }
+            dataUrl = await fileToDataUrl(file);
+          } else {
+            // Auto-optimize photos so they sync rapidly across all classmates' phones
+            dataUrl = await compressImageToDataUrl(file, 1280, 0.78);
+          }
+
+          const approxBytes = Math.round((dataUrl.length * 3) / 4);
+          if (state.cloudConnected && approxBytes > 950 * 1024) {
+            // Re-compress at lower quality if still near 1MB Firestore doc limit
+            dataUrl = await compressImageToDataUrl(file, 960, 0.65);
+          }
+
+          const id = 'media_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+          const record = {
+            id,
+            galleryId: state.galleryId,
+            title: file.name.replace(/\.[^/.]+$/, ''),
+            fileName: file.name,
+            mimeType: isVideo ? file.type : 'image/jpeg',
+            type: isVideo ? 'video' : 'image',
+            size: Math.round((dataUrl.length * 3) / 4),
+            dataUrl,
+            album: state.selectedAlbum || '',
+            tags: [],
+            favorite: false,
+            uploader: state.userName,
+            createdAt: Date.now()
+          };
+
+          await saveMediaRecord(record);
+          uploadedCount++;
+        } catch (err) {
+          console.error('Upload error:', err);
+          showToast(`Failed to upload ${file.name}`);
+        }
       }
 
-      await refreshData();
-      showToast(`Uploaded ${files.length} file(s)!`);
+      if (uploadedCount > 0) {
+        showToast(state.cloudConnected
+          ? `Synced ${uploadedCount} file(s) live to all classmates!`
+          : `Saved ${uploadedCount} file(s) locally!`
+        );
+      }
     }
 
     // --- Rendering ---
-    async function refreshData() {
-      state.items = await dbGetAll();
-      renderUI();
+    function getMediaSrc(item) {
+      if (item.dataUrl) return item.dataUrl;
+      if (item.blob) {
+        const url = URL.createObjectURL(item.blob);
+        state.activeObjectUrls.push(url);
+        return url;
+      }
+      return '';
     }
 
     function renderUI() {
@@ -531,12 +804,12 @@
 
       if (state.permission === 'upload') {
         permBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span> <span>Upload & View Enabled</span>`;
-        permBadge.className = 'mt-2.5 text-[11px] text-emerald-400 flex items-center gap-1.5';
+        permBadge.className = 'text-[11px] text-emerald-400 flex items-center gap-1.5';
         dropZone.classList.remove('hidden');
         headerUpload.classList.remove('hidden');
       } else {
         permBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span> <span>View Only Mode</span>`;
-        permBadge.className = 'mt-2.5 text-[11px] text-amber-400 flex items-center gap-1.5';
+        permBadge.className = 'text-[11px] text-amber-400 flex items-center gap-1.5';
         dropZone.classList.add('hidden');
         headerUpload.classList.add('hidden');
       }
@@ -625,9 +898,7 @@
       } else {
         empty.classList.add('hidden');
         filtered.forEach(item => {
-          const url = URL.createObjectURL(item.blob);
-          state.activeObjectUrls.push(url);
-
+          const url = getMediaSrc(item);
           const isSelected = state.selectedIds.has(item.id);
           const card = document.createElement('div');
           card.className = `group relative bg-vault-card border rounded-xl overflow-hidden cursor-pointer transition-all min-w-0 ${
@@ -700,8 +971,7 @@
       const item = state.items.find(i => i.id === id);
       if (!item) return;
       item.favorite = !item.favorite;
-      await dbPut(item);
-      await refreshData();
+      await saveMediaRecord(item);
     }
 
     // --- Lightbox ---
@@ -710,9 +980,7 @@
       if (!item) return;
       state.activeItemId = id;
 
-      const url = URL.createObjectURL(item.blob);
-      state.activeObjectUrls.push(url);
-
+      const url = getMediaSrc(item);
       const container = document.getElementById('lightboxMediaContainer');
       container.innerHTML = item.type === 'video'
         ? `<video src="${url}" controls autoplay playsinline class="max-h-[48vh] lg:max-h-[82vh] max-w-full rounded-xl shadow-2xl"></video>`
@@ -731,7 +999,7 @@
 
       const dlBtn = document.getElementById('inspectorDownloadBtn');
       dlBtn.href = url;
-      dlBtn.download = item.fileName || item.title;
+      dlBtn.download = item.fileName || `${item.title}.jpg`;
 
       document.getElementById('inspectorFavBtn').textContent = item.favorite ? '★ Favorited' : '☆ Favorite';
       document.getElementById('lightboxModal').classList.remove('hidden');
@@ -747,8 +1015,7 @@
       const item = state.items.find(i => i.id === state.activeItemId);
       if (item) {
         item.title = e.target.value.trim() || item.title;
-        await dbPut(item);
-        await refreshData();
+        await saveMediaRecord(item);
       }
     };
 
@@ -756,8 +1023,7 @@
       const item = state.items.find(i => i.id === state.activeItemId);
       if (item) {
         item.album = e.target.value;
-        await dbPut(item);
-        await refreshData();
+        await saveMediaRecord(item);
       }
     };
 
@@ -765,8 +1031,7 @@
       const item = state.items.find(i => i.id === state.activeItemId);
       if (item) {
         item.tags = e.target.value.split(',').map(t => t.trim()).filter(Boolean);
-        await dbPut(item);
-        await refreshData();
+        await saveMediaRecord(item);
       }
     };
 
@@ -781,10 +1046,10 @@
 
     document.getElementById('inspectorDeleteBtn').onclick = async () => {
       if (!state.activeItemId) return;
-      await dbDelete(state.activeItemId);
+      const targetId = state.activeItemId;
       document.getElementById('closeLightboxBtn').click();
-      await refreshData();
-      showToast('Item deleted');
+      await deleteMediaRecord(targetId);
+      showToast('Deleted for everyone');
     };
 
     // --- Bulk Actions ---
@@ -817,14 +1082,13 @@
         const item = state.items.find(i => i.id === id);
         if (item) {
           item.favorite = true;
-          await dbPut(item);
+          await saveMediaRecord(item);
         }
       }
       state.selectMode = false;
       state.selectedIds.clear();
       document.getElementById('toggleSelectModeBtn').textContent = 'Select';
       updateBulkBar();
-      await refreshData();
       showToast('Added to favorites');
     };
 
@@ -839,27 +1103,25 @@
         const item = state.items.find(i => i.id === id);
         if (item) {
           item.album = targetAlbum;
-          await dbPut(item);
+          await saveMediaRecord(item);
         }
       }
       state.selectMode = false;
       state.selectedIds.clear();
       document.getElementById('toggleSelectModeBtn').textContent = 'Select';
       updateBulkBar();
-      await refreshData();
       showToast(`Moved to ${targetAlbum}`);
     };
 
     document.getElementById('bulkDeleteBtn').onclick = async () => {
       if (!state.selectedIds.size) return;
       for (const id of state.selectedIds) {
-        await dbDelete(id);
+        await deleteMediaRecord(id);
       }
       state.selectMode = false;
       state.selectedIds.clear();
       document.getElementById('toggleSelectModeBtn').textContent = 'Select';
       updateBulkBar();
-      await refreshData();
       showToast('Selected items deleted');
     };
 
@@ -925,7 +1187,10 @@
       const url = getCleanShareUrl();
       try {
         await navigator.clipboard.writeText(url);
-        showToast('Share link copied to clipboard!');
+        showToast(state.cloudConnected
+          ? 'Live-synced share link copied!'
+          : 'Gallery link copied (Connect Cloud Sync to share photos across devices)'
+        );
       } catch (e) {
         prompt('Copy this link to share with classmates:', url);
       }
@@ -946,43 +1211,80 @@
     document.getElementById('mobileEditNameBtn').onclick = promptEditName;
 
     // Settings Modal
-    document.getElementById('settingsBtn').onclick = () => {
+    function openSettingsModal() {
       document.getElementById('settingGalleryName').value = state.galleryName;
       document.getElementById('settingUserName').value = state.userName;
       document.getElementById('settingPermission').value = state.permission;
+      document.getElementById('firebaseConfigInput').value = state.firebaseConfig
+        ? JSON.stringify(state.firebaseConfig, null, 2)
+        : '';
       document.getElementById('shareUrlInput').value = getCleanShareUrl();
       document.getElementById('settingsModal').classList.remove('hidden');
       document.getElementById('settingsModal').classList.add('flex');
-    };
+    }
+
+    document.getElementById('settingsBtn').onclick = openSettingsModal;
+    document.getElementById('syncStatusBtn').onclick = openSettingsModal;
+    document.getElementById('openCloudSetupBtn').onclick = openSettingsModal;
 
     document.getElementById('closeSettingsBtn').onclick = () => {
       document.getElementById('settingsModal').classList.add('hidden');
       document.getElementById('settingsModal').classList.remove('flex');
     };
 
-    document.getElementById('saveSettingsBtn').onclick = () => {
+    function parseLooseFirebaseConfig(raw) {
+      if (!raw || !raw.trim()) return null;
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        // Also support JS object literal pasted directly from Firebase Console
+        try {
+          const objMatch = raw.match(/\{[\s\S]*\}/);
+          if (!objMatch) return null;
+          const fixed = objMatch[0]
+            .replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":')
+            .replace(/'/g, '"')
+            .replace(/,\s*}/g, '}');
+          return JSON.parse(fixed);
+        } catch (err) {
+          return null;
+        }
+      }
+    }
+
+    document.getElementById('saveSettingsBtn').onclick = async () => {
       state.galleryName = document.getElementById('settingGalleryName').value.trim() || 'Class Media Vault';
       state.userName = document.getElementById('settingUserName').value.trim() || 'Classmate';
       state.permission = document.getElementById('settingPermission').value;
+
+      const rawCfg = document.getElementById('firebaseConfigInput').value.trim();
+      if (rawCfg) {
+        const parsed = parseLooseFirebaseConfig(rawCfg);
+        if (!parsed || !parsed.projectId) {
+          showToast('Invalid Firebase config. Please paste the full firebaseConfig object.');
+          return;
+        }
+        state.firebaseConfig = parsed;
+        localStorage.setItem('av_firebaseConfig', JSON.stringify(parsed));
+      } else {
+        state.firebaseConfig = null;
+        localStorage.removeItem('av_firebaseConfig');
+      }
+
       saveMeta();
-      renderUI();
+      syncBrowserUrl(state.galleryId, state.firebaseConfig);
       document.getElementById('closeSettingsBtn').click();
-      showToast('Settings saved');
+      await initCloudSync();
+      showToast(state.firebaseConfig ? 'Cloud sync connected!' : 'Settings saved');
     };
 
-    document.getElementById('newGalleryBtn').onclick = () => {
+    document.getElementById('newGalleryBtn').onclick = async () => {
       const newId = 'class-' + Math.random().toString(36).substring(2, 8);
       state.galleryId = newId;
-      try {
-        const cleanUrl = new URL(window.location.href);
-        if (cleanUrl.protocol.startsWith('http')) {
-          cleanUrl.searchParams.set('gallery', newId);
-          window.history.replaceState({}, '', cleanUrl.toString());
-        }
-      } catch (e) {}
+      syncBrowserUrl(newId, state.firebaseConfig);
       document.getElementById('closeSettingsBtn').click();
-      refreshData();
-      showToast('Started a fresh gallery');
+      await initCloudSync();
+      showToast('Started a fresh gallery room');
     };
 
     // Mobile Sidebar Toggle
@@ -995,7 +1297,7 @@
     backdrop.onclick = closeMobileSidebar;
 
     // Initialize App
-    refreshData();
+    initCloudSync();
   </script>
 </body>
 </html>
